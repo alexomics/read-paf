@@ -101,7 +101,10 @@ def _paf_generator(file_like, fields=None):
         raise ValueError("{} fields provided, expected 13".format(len(fields)))
     PAF = namedtuple("PAF", fields)
     for record in file_like:
-        record = record.strip().split("\t")
+        record = record.strip()
+        if not record:
+            continue
+        record = record.split("\t")
         yield PAF(*_format_records(record[:12]), _parse_tags(record[12:]))
 
 
