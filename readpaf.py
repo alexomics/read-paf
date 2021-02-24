@@ -1,4 +1,5 @@
 from collections import namedtuple
+
 try:
     import pandas as pd
 except Exception as E:
@@ -7,8 +8,49 @@ except Exception as E:
 else:
     pandas = True
 
+TAB = "\t"
+
+
+class _PAF:
+    """Base PAF methods, can't guarantee field names here so use indices"""
+
+    def __repr__(self):
+        """Dev representation of PAF, may change in future"""
+        return f"PAF({self[0]} -> {self[5]})"
+
+    def __str__(self):
+        """Formats a record as a PAF line for writing to a file"""
+        return f"{TAB.join(map(str, self[:-1]))}{TAB}{self._fmt_tags()}"
+
+    def _fmt_tags(self):
+        """Format tag dict as SAM style"""
+        return "\t".join(
+            "{}:{}:{}".format(k, REV_TYPES.get(k), v) for k, v in self[-1].items()
+        )
+
+    def blast_identity(self):
+        """BLAST identity, see: https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-blast_identity"""
+        return self[9] / self[10]
+
 
 SAM_TYPES = {"i": int, "A": str, "f": float, "Z": str}
+REV_TYPES = {
+    "tp": "A",
+    "cm": "i",
+    "s1": "i",
+    "s2": "i",
+    "NM": "i",
+    "MD": "Z",
+    "AS": "i",
+    "ms": "i",
+    "nn": "i",
+    "ts": "A",
+    "cg": "Z",
+    "cs": "Z",
+    "dv": "f",
+    "de": "f",
+    "rl": "i",
+}
 
 
 def _expand_dict_in_series(df, field):
@@ -44,38 +86,11 @@ def _parse_tags(tags):
     dict
         Returns dict of SAM style tags
     """
+    _def = lambda x: x
     return {
-        tag: _conv_type(val, SAM_TYPES.get(type_))
+        tag: SAM_TYPES.get(type_, _def)(val)
         for tag, type_, val in (x.split(":") for x in tags)
     }
-
-
-def _conv_type(s, func):
-    """Generic converter, to change strings to other types
-
-    Parameters
-    ----------
-    s : str
-        A string that represents another type
-    func : function
-        Function to apply to s, should take a single parameter
-
-    Returns
-    -------
-    The type of func, otherwise str
-    """
-    if func is not None:
-        try:
-            return func(s)
-        except ValueError:
-            return s
-    return s
-
-
-def _format_records(records):
-    """Helper function to make fields the right type
-    """
-    return (_conv_type(x, int) for x in records)
 
 
 def _paf_generator(file_like, fields=None):
@@ -99,13 +114,28 @@ def _paf_generator(file_like, fields=None):
     """
     if len(fields) != 13:
         raise ValueError("{} fields provided, expected 13".format(len(fields)))
-    PAF = namedtuple("PAF", fields)
+    _PAF_nt = namedtuple("PAF", fields)
+    PAF = type("PAF", (_PAF, _PAF_nt), dict())
     for record in file_like:
         record = record.strip()
         if not record:
             continue
         record = record.split("\t")
-        yield PAF(*_format_records(record[:12]), _parse_tags(record[12:]))
+        yield PAF(
+            str(record[0]),
+            int(record[1]),
+            int(record[2]),
+            int(record[3]),
+            str(record[4]),
+            str(record[5]),
+            int(record[6]),
+            int(record[7]),
+            int(record[8]),
+            int(record[9]),
+            int(record[10]),
+            int(record[11]),
+            _parse_tags(record[12:]),
+        )
 
 
 def parse_paf(file_like, fields=None, dataframe=False):
