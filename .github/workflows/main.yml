@@ -1,0 +1,44 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: "Lint with black & flake8"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.9"
+
+      - uses: "psf/black@stable"
+      - name: "Run flake8"
+        run: |
+          set -xe
+          python -VV
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade flake8
+          python -m flake8 readpaf.py
+
+  package:
+    name: "Build & verify package"
+    runs-on: "ubuntu-latest"
+    needs: "lint"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+        with:
+          python-version: "3.9"
+
+      - name: "Install build, check-wheel-content, and twine"
+        run: "python -m pip install build twine check-wheel-contents"
+      - name: "Build package"
+        run: "python -m build --sdist --wheel ."
+      - name: "List result"
+        run: "ls -l dist"
+      - name: "Check wheel contents"
+        run: "check-wheel-contents dist/*.whl"
+      - name: "Check long_description"
+        run: "python -m twine check dist/*"
