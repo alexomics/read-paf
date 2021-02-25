@@ -35,7 +35,7 @@ class _PAF:
 
     def blast_identity(self):
         """BLAST identity, see:
-        https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-blast_identity
+        https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-identity
         """
         return self[9] / self[10]
 
