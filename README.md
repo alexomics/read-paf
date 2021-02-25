@@ -1,21 +1,35 @@
-read-paf
-========
+readpaf
+=======
 Scripts for reading minimap2 PAF files
 
 Installation
 ===
 
-Either copy and paste the contents of [readpaf.py](readpaf.py) or cURL the file like so:
+readpaf is contained in a single module so can be installed via PyPI:
 
 ```bash
-curl -O https://raw.githubusercontent.com/alexomics/read-paf/master/readpaf.py
+pip install readpaf
 ```
 
-If you need to open the PAF file as a DataFrame then [pandas](https://pandas.pydata.org/)
-will need to be installed:
+inlcuding pandas:
 
-```python
-pip install pandas
+```bash
+pip install readpaf[pandas]
+```
+
+Or [readpaf.py](readpaf.py) can be directly downloaded like so
+
+using cURL
+
+```bash
+curl -O https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
+```
+
+or wget
+
+```bash
+wget https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
+
 ```
 
 Usage

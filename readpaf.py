@@ -1,5 +1,10 @@
 from collections import namedtuple
 
+
+__all__ = ["parse_paf"]
+
+__version__ = "0.0.1a1"
+
 try:
     import pandas as pd
 except Exception as E:
@@ -29,7 +34,9 @@ class _PAF:
         )
 
     def blast_identity(self):
-        """BLAST identity, see: https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-blast_identity"""
+        """BLAST identity, see:
+        https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-blast_identity
+        """
         return self[9] / self[10]
 
 
@@ -86,7 +93,7 @@ def _parse_tags(tags):
     dict
         Returns dict of SAM style tags
     """
-    _def = lambda x: x
+    _def = lambda x: x  # noqa: E731
     return {
         tag: SAM_TYPES.get(type_, _def)(val)
         for tag, type_, val in (x.split(":") for x in tags)
