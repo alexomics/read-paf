@@ -1,0 +1,10 @@
+ead59ff7-cc16-46ed-8edd-eea5e185b3c5	878	110	713	+	Salmonella_enterica_complete_genome	4759746	2385487	2386084	121	604	60	tp:A:P	cm:i:19	s1:i:120	s2:i:0	dv:f:0.1195	rl:i:0
+60c06c3c-26c7-4f76-90b7-5305abf80866	614	5	72	+	Saccharomyces_cerevisiae_XII	1078177	490168	490232	52	67	0	tp:A:P	cm:i:4	s1:i:52	s2:i:52	dv:f:0.0674	rl:i:0
+60c06c3c-26c7-4f76-90b7-5305abf80866	614	5	72	+	Saccharomyces_cerevisiae_XII	1078177	461337	461401	52	67	0	tp:A:S	cm:i:4	s1:i:52	dv:f:0.0674	rl:i:0
+60c06c3c-26c7-4f76-90b7-5305abf80866	614	5	72	+	Saccharomyces_cerevisiae_XII	1078177	452200	452264	52	67	0	tp:A:S	cm:i:4	s1:i:52	dv:f:0.0674	rl:i:0
+ebd0b683-f140-415d-abd1-9b1cc3d295ab	2837	694	1768	-	Staphylococcus_aureus_chromosome	2718780	620963	622103	72	1140	30	tp:A:P	cm:i:7	s1:i:59	s2:i:0	dv:f:0.2221	rl:i:0
+d7fdd8e1-5660-4e9b-95b8-b421628a078c	2657	123	1848	-	Bacillus_subtilis_complete_genome	4045677	3512962	3514772	533	1830	60	tp:A:P	cm:i:66	s1:i:510	s2:i:0	dv:f:0.1055	rl:i:0
+78a6d441-122f-402e-a41b-b01316fd22a3	1130	132	665	+	Bacillus_subtilis_complete_genome	4045677	3918399	3918953	45	554	0	tp:A:P	cm:i:3	s1:i:40	s2:i:0	dv:f:0.2324	rl:i:0
+e6dfeea4-bc20-4e9e-b10c-12b8b6ac7020	4737	281	4712	+	Escherichia_coli_chromosome	4765434	303451	307674	304	4459	60	tp:A:P	cm:i:25	s1:i:253	s2:i:0	dv:f:0.2329	rl:i:0
+5ec9597c-74f1-4886-a43f-fcc8dd220228	2683	127	2543	+	Bacillus_subtilis_complete_genome	4045677	1715750	1718382	162	2632	19	tp:A:P	cm:i:13	s1:i:121	s2:i:106	dv:f:0.2360	rl:i:30
+5ec9597c-74f1-4886-a43f-fcc8dd220228	2683	127	869	-	Bacillus_subtilis_complete_genome	4045677	3697167	3697961	115	794	0	tp:A:S	cm:i:9	s1:i:106	dv:f:0.1810	rl:i:30
