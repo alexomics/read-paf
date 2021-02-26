@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.6a2"
+__version__ = "0.0.6a3"
 
 try:
     import pandas as pd
