@@ -1,9 +1,10 @@
+from __future__ import division
 from collections import namedtuple
 
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.5"
+__version__ = "0.0.6a1"
 
 try:
     import pandas as pd
@@ -21,11 +22,11 @@ class _PAF:
 
     def __repr__(self):
         """Dev representation of PAF, may change in future"""
-        return f"PAF({self[0]} -> {self[5]})"
+        return "PAF({} -> {})".format(self[0], self[5])
 
     def __str__(self):
         """Formats a record as a PAF line for writing to a file"""
-        return f"{TAB.join(map(str, self[:-1]))}{TAB}{self._fmt_tags()}"
+        return "{}\t{}".format(TAB.join(map(str, self[:-1])), self._fmt_tags())
 
     def _fmt_tags(self):
         """Format tag dict as SAM style"""
