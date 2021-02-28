@@ -4,9 +4,13 @@ These are the main tests for the readpaf module, these are executed with
 the expectation that pandas is not available. 
 """
 import os
-import io
 import pytest
 from readpaf import parse_paf
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 try:
     import pandas as pd
@@ -59,7 +63,7 @@ def test_blast_identity():
 
 def test_get_paf_line():
     _rec = "a7208cb4-133c-4ab9-96fe-db8630f4d9bb\t373\t15\t368\t+\tEf_genome\t2845392\t586028\t586405\t103\t377\t60\ttp:A:P\n"
-    PAF_IO = io.StringIO(_rec)
+    PAF_IO = StringIO(_rec)
     for rec in parse_paf(PAF_IO):
         assert str(rec) == _rec.strip(), "record didn't match"
 

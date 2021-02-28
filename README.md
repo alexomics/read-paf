@@ -23,16 +23,19 @@ pip install readpaf[pandas]
 
 <details>
   <summary>Direct download</summary>
-   As readpaf is a self contained module it can be installed by downloading just 
-   the module. The latest version is available from:
-   ```
-   https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
-   ```
-   or a specific version can be downloaded from a release/tag like so:
-   ```bash
-   https://raw.githubusercontent.com/alexomics/read-paf/blob/v0.0.5/readpaf.py
-   ```
-   [PyPI](https://pypi.org/p/readpaf) is the recommended install method.
+As readpaf is a self contained module it can be installed by downloading just 
+the module. The latest version is available from:
+
+```
+https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
+```
+
+or a specific version can be downloaded from a release/tag like so:
+
+```bash
+https://raw.githubusercontent.com/alexomics/read-paf/blob/v0.0.5/readpaf.py
+```
+[PyPI](https://pypi.org/p/readpaf) is the recommended install method.
 </details>
 
 Usage

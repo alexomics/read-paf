@@ -1,7 +1,11 @@
 import os
-import io
 import pandas as pd
 from readpaf import parse_paf
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 STATIC_FILES = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static_files")
 PAF_FILE = os.path.join(STATIC_FILES, "test.paf")
@@ -43,7 +47,7 @@ def test_fields():
 
 def test_tag_suffix():
     _rec = "a7208cb4-133c-4ab9-96fe-db8630f4d9bb\t373\t15\t368\t+\tEf_genome\t2845392\t586028\t586405\t103\t377\t60\ttp:A:P\n"
-    PAF_IO = io.StringIO(_rec)
+    PAF_IO = StringIO(_rec)
     cols = [
         "query_name",
         "query_length",
