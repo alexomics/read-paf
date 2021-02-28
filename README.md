@@ -33,7 +33,7 @@ https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
 or a specific version can be downloaded from a release/tag like so:
 
 ```bash
-https://raw.githubusercontent.com/alexomics/read-paf/blob/v0.0.5/readpaf.py
+https://raw.githubusercontent.com/alexomics/read-paf/v0.0.5/readpaf.py
 ```
 [PyPI](https://pypi.org/p/readpaf) is the recommended install method.
 </details>
