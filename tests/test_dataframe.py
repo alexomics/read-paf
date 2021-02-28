@@ -1,5 +1,5 @@
 import os
-import pytest
+import io
 import pandas as pd
 from readpaf import parse_paf
 
@@ -39,3 +39,24 @@ def test_fields():
     with open(PAF_FILE, "r") as fh:
         df = parse_paf(fh, dataframe=True)
     assert set(cols).issubset(set(df.columns)), "Fields not set correctly"
+
+
+def test_tag_suffix():
+    _rec = "a7208cb4-133c-4ab9-96fe-db8630f4d9bb\t373\t15\t368\t+\tEf_genome\t2845392\t586028\t586405\t103\t377\t60\ttp:A:P\n"
+    PAF_IO = io.StringIO(_rec)
+    cols = [
+        "query_name",
+        "query_length",
+        "query_start",
+        "query_end",
+        "strand",
+        "tp",
+        "target_length",
+        "target_start",
+        "target_end",
+        "residue_matches",
+        "alignment_block_length",
+        "mapping_quality",
+    ]
+    df = parse_paf(PAF_IO, fields=cols + ["tags"], dataframe=True)
+    assert set(df.columns) == set(cols + ["tp_tag"]), "Tag field not set correctly"

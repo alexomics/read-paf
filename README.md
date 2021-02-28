@@ -3,38 +3,36 @@ readpaf
 [![Build](https://github.com/alexomics/read-paf/actions/workflows/main.yml/badge.svg)](https://github.com/alexomics/read-paf/actions/workflows/main.yml)
 [![PyPI](https://img.shields.io/pypi/v/readpaf)](https://pypi.org/p/readpaf)
 
-readpaf is a fast parser for [minimap2](https://github.com/lh3/minimap2) PAF (**P**airwise m**A**pping **F**ormat) files. It is 
-pure python with no dependencies (unless you want a DataFrame).
+readpaf is a fast parser for [minimap2](https://github.com/lh3/minimap2) PAF 
+(**P**airwise m**A**pping **F**ormat) files. It is written in pure python with
+no required dependencies unless a [pandas](https://pandas.pydata.org/) DataFrame 
+is required.
 
 
 Installation
 ===
+Minimal  install:
 ```bash
 pip install readpaf
 ```
 
+With optional `pandas` dependency:
+```bash
+pip install readpaf[pandas]
+```
+
 <details>
-  <summary>Other install methods</summary>
-    
-   ### Install with pandas:
-   This is only needed if you want to manipulate the PAF file as a `pandas.DataFrame`
-
-   ```bash
-   pip install readpaf[pandas]
+  <summary>Direct download</summary>
+   As readpaf is a self contained module it can be installed by downloading just 
+   the module. The latest version is available from:
    ```
-
-   ### Direct download:
-   using cURL
-
-   ```bash
-   curl -O https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
+   https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
    ```
-
-   or wget
-
+   or a specific version can be downloaded from a release/tag like so:
    ```bash
-   wget https://raw.githubusercontent.com/alexomics/read-paf/main/readpaf.py
+   https://raw.githubusercontent.com/alexomics/read-paf/blob/v0.0.5/readpaf.py
    ```
+   [PyPI](https://pypi.org/p/readpaf) is the recommended install method.
 </details>
 
 Usage
@@ -44,7 +42,7 @@ readpaf only has one user function, `parse_paf` that accepts of file-like object
 is any object in python that has a file-oriented API (`sys.stdin`, `stdout` from subprocess, 
 `io.StringIO`, open files from `gzip` or `open`).  
 
-The following script demonstrates how minimap2 output can be piped into read-paf 
+The following script demonstrates how minimap2 output can be piped into readpaf 
 
 ```python
 from readpaf import parse_paf
@@ -54,7 +52,7 @@ for record in parse_paf(stdin):
     print(record.query_name, record.target_name)
 ```
 
-read-paf can also generate a pandas DataFrame:
+readpaf can also generate a pandas DataFrame:
 
 ```python
 from readpaf import parse_paf
@@ -67,7 +65,7 @@ with open("test.paf", "r") as handle:
 Functions
 ===
 
-read-paf has a single user function
+readpaf has a single user function
 
 parse_paf
 ---

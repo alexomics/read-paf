@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.6a3"
+__version__ = "0.0.6a4"
 
 try:
     import pandas as pd
@@ -14,19 +14,13 @@ except Exception as E:
 else:
     pandas = True
 
-TAB = "\t"
-
 
 class _PAF:
     """Base PAF methods, can't guarantee field names here so use indices"""
 
-    def __repr__(self):
-        """Dev representation of PAF, may change in future"""
-        return "PAF({} -> {})".format(self[0], self[5])
-
     def __str__(self):
         """Formats a record as a PAF line for writing to a file"""
-        return "{}\t{}".format(TAB.join(map(str, self[:-1])), self._fmt_tags())
+        return "{}\t{}".format("\t".join(map(str, self[:-1])), self._fmt_tags())
 
     def _fmt_tags(self):
         """Format tag dict as SAM style"""
@@ -76,7 +70,7 @@ def _expand_dict_in_series(df, field):
     pd.DataFrame
         The orignal DataFrame with extra Series from the dicts
     """
-    return df.join(pd.DataFrame(df.pop(field).tolist()))
+    return df.join(pd.DataFrame(df.pop(field).tolist()), rsuffix="_tag")
 
 
 def _parse_tags(tags):
@@ -154,14 +148,17 @@ def parse_paf(file_like, fields=None, dataframe=False):
     file_like : file-like object
         Object with a read() method, such as a sys.stdin, file handler or io.StringIO.
     fields : list
-        List of field names to use for records, must have 13 entries. Default:
+        List of field names to use for records, must have 13 entries. These should
+        be in the order of the fields in the PAF file and the last field will be
+        used for tags.  Default:
         ["query_name", "query_length", "query_start", "query_end", "strand",
         "target_name", "target_length", "target_start", "target_end",
         "residue_matches", "alignment_block_length", "mapping_quality", "tags"]
     dataframe : bool
         Default is False. When True a pandas.DataFrame is returned with Series
         named as the `fields` parameter. SAM tags are expanded into Series as
-        well and given their specified types.
+        well and given their specified types, if any of the field names overlap
+        with tags the tag column will be given the suffix `_tag`.
 
     Returns
     -------
