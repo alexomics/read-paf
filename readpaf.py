@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.6"
+__version__ = "0.0.7a1"
 
 try:
     import pandas as pd
@@ -35,6 +35,21 @@ class _PAF:
         return self[9] / self[10]
 
 
+FIELDS = [
+    "query_name",
+    "query_length",
+    "query_start",
+    "query_end",
+    "strand",
+    "target_name",
+    "target_length",
+    "target_start",
+    "target_end",
+    "residue_matches",
+    "alignment_block_length",
+    "mapping_quality",
+    "tags",
+]
 SAM_TYPES = {"i": int, "A": str, "f": float, "Z": str}
 REV_TYPES = {
     "tp": "A",
@@ -88,9 +103,8 @@ def _parse_tags(tags):
     dict
         Returns dict of SAM style tags
     """
-    _def = lambda x: x  # noqa: E731
     return {
-        tag: SAM_TYPES.get(type_, _def)(val)
+        tag: SAM_TYPES.get(type_, lambda x: x)(val)
         for tag, type_, val in (x.split(":") for x in tags)
     }
 
@@ -125,17 +139,17 @@ def _paf_generator(file_like, fields=None):
         record = record.split("\t")
         yield PAF(
             str(record[0]),
-            int(record[1]),
-            int(record[2]),
-            int(record[3]),
+            int(record[1]) if record[1].isdigit() else float("nan"),
+            int(record[2]) if record[2].isdigit() else float("nan"),
+            int(record[3]) if record[3].isdigit() else float("nan"),
             str(record[4]),
             str(record[5]),
-            int(record[6]),
-            int(record[7]),
-            int(record[8]),
-            int(record[9]),
-            int(record[10]),
-            int(record[11]),
+            int(record[6]) if record[6].isdigit() else float("nan"),
+            int(record[7]) if record[7].isdigit() else float("nan"),
+            int(record[8]) if record[8].isdigit() else float("nan"),
+            int(record[9]) if record[9].isdigit() else float("nan"),
+            int(record[10]) if record[10].isdigit() else float("nan"),
+            int(record[11]) if record[11].isdigit() else float("nan"),
             _parse_tags(record[12:]),
         )
 
@@ -164,22 +178,8 @@ def parse_paf(file_like, fields=None, dataframe=False):
     -------
     iterator or pandas.DataFrame when dataframe is True
     """
-    if fields is None:
-        fields = [
-            "query_name",
-            "query_length",
-            "query_start",
-            "query_end",
-            "strand",
-            "target_name",
-            "target_length",
-            "target_start",
-            "target_end",
-            "residue_matches",
-            "alignment_block_length",
-            "mapping_quality",
-            "tags",
-        ]
+    fields = FIELDS if fields is None else fields
+
     if dataframe and pandas:
         return _expand_dict_in_series(
             pd.DataFrame(_paf_generator(file_like, fields=fields)), fields[-1]
