@@ -22,6 +22,7 @@ else:
 STATIC_FILES = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static_files")
 PAF_FILE = os.path.join(STATIC_FILES, "test.paf")
 MISSING_LINE = os.path.join(STATIC_FILES, "test_blank_line.paf")
+UNMAPPED_REC = os.path.join(STATIC_FILES, "test_unmapped.paf")
 
 
 def test_read_uncompressed():
@@ -73,3 +74,11 @@ def test_request_dataframe():
     with pytest.raises(ImportError):
         with open(PAF_FILE, "r") as fh:
             _ = parse_paf(fh, dataframe=True)
+
+
+def test_read_unmapped():
+    c = 0
+    with open(UNMAPPED_REC, "r") as fh:
+        for record in parse_paf(fh):
+            c += 1
+    assert c == 10, "Incorrect number of records"

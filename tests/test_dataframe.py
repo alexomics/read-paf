@@ -10,6 +10,22 @@ except ImportError:
 STATIC_FILES = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static_files")
 PAF_FILE = os.path.join(STATIC_FILES, "test.paf")
 MISSING_LINE = os.path.join(STATIC_FILES, "test_blank_line.paf")
+UNMAPPED_REC = os.path.join(STATIC_FILES, "test_unmapped.paf")
+
+DEFAULT_COLS = [
+    "query_name",
+    "query_length",
+    "query_start",
+    "query_end",
+    "strand",
+    "target_name",
+    "target_length",
+    "target_start",
+    "target_end",
+    "residue_matches",
+    "alignment_block_length",
+    "mapping_quality",
+]
 
 
 def test_read_to_dataframe():
@@ -25,24 +41,17 @@ def test_read_missing_line():
     assert df.shape == (9, 18), "Not the right shape"
 
 
+def test_read_unmapped():
+    with open(UNMAPPED_REC, "r") as fh:
+        df = parse_paf(fh, dataframe=True)
+    null = df[DEFAULT_COLS].isnull().any(axis=1).sum()
+    assert null == 1, "Expected only one row with NaNs"
+
+
 def test_fields():
-    cols = [
-        "query_name",
-        "query_length",
-        "query_start",
-        "query_end",
-        "strand",
-        "target_name",
-        "target_length",
-        "target_start",
-        "target_end",
-        "residue_matches",
-        "alignment_block_length",
-        "mapping_quality",
-    ]
     with open(PAF_FILE, "r") as fh:
         df = parse_paf(fh, dataframe=True)
-    assert set(cols).issubset(set(df.columns)), "Fields not set correctly"
+    assert set(DEFAULT_COLS).issubset(set(df.columns)), "Fields not set correctly"
 
 
 def test_tag_suffix():
