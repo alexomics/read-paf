@@ -90,7 +90,8 @@ def _parse_tags(tags):
     -------
     dict of str: namedtuple
         Returns dict of SAM style tags.
-        Each key is the tag name and the value is a namedtuple with fields `name`, `type`, and `value`.
+        Each key is the tag name and the value is a namedtuple with fields
+        `name`, `type`, and `value`.
     """
     return {
         tag: SAM_TAG(tag, type_, SAM_TYPES.get(type_, lambda x: x)(val))
@@ -147,7 +148,8 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
     """Read a minimap2 PAF file as either an iterator or a pandas.DataFrame
 
     When using as an iterator the `tags` field is a list of namedtuples.
-    Each namedtuple has the fields `name`, `type`, `value` that corresponds to each field (delimeted by `:`) in the SAM-style tag.
+    Each namedtuple has the fields `name`, `type`, `value` that corresponds to
+    each field (delimeted by `:`) in the SAM-style tag.
 
     Parameters
     ----------
@@ -161,7 +163,8 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
         "target_name", "target_length", "target_start", "target_end",
         "residue_matches", "alignment_block_length", "mapping_quality", "tags"]
     na_values : list[str], optional
-        List of strings to interpret as NaN values in numeric fields (2, 3, 4, 7, 8, 9, 10, 11, 12).
+        List of strings to interpret as NaN values in numeric fields
+        (2, 3, 4, 7, 8, 9, 10, 11, 12).
         Default: ["*"]
     na_rep : int or float, optional
         Value to use when a NaN value specified in `na_values` is found. Default: `0`.
