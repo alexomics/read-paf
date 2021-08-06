@@ -74,7 +74,7 @@ parse_paf
 ---
 
 ```python
-parse_paf(file_like=file_handle, fields=list, dataframe=bool)
+parse_paf(file_like=file_handle, fields=list, na_values=list, na_rep=numeric, dataframe=bool)
 ```
 Parameters:
 
@@ -86,14 +86,19 @@ Parameters:
     "residue_matches", "alignment_block_length", "mapping_quality", "tags"
     ```
     These are based on the [PAF specification](https://github.com/lh3/miniasm/blob/master/PAF.md).
+ - **na_values:** A list of values to interpret as NaN. This is only applied to numeric fields, default: `["*"]`
+ - **na_rep:** Value to use when a NaN value specified in `na_values` is found. This should ideally be `0` to match minimap2's output default: `0`
  - **dataframe:** bool, if True, return a pandas.DataFrame with the tags expanded into separate Series
- 
+
+
 If used as an iterator, then each object returned is a named tuple representing a single line in the PAF file. 
-Each named tuple has field names as specified by the `fields` parameter. The SAM-like tags are converted into 
-their correct types and stored in a dictionary. When `print` or `str` are called on `PAF` record (named tuple) 
-a formated PAF string is returned, which is useful for writing records to a file. The `PAF` record also has a 
-method `blast_identity` which calculates the [blast identity](https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-identity) for
-that record.
+Each named tuple has field names as specified by the `fields` parameter.
+The SAM-like tags are converted into their specified types and stored in a dictionary with the tag name as the key and the value a named tuple with fields `name`, `type`, and `value`.
+When `print` or `str` are called on `PAF` record (named tuple) a formated PAF string is returned, which is useful for writing records to a file.
+The `PAF` record also has a method `blast_identity` which calculates the [blast identity](https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-identity) for that record.
 
 If used to generate a pandas DataFrame, then each row represents a line in the PAF file and the SAM-like tags 
 are expanded into individual series.
+
+
+
