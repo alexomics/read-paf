@@ -138,8 +138,8 @@ def test_read_unmapped():
 def test_request_dataframe_without_pandas(monkeypatch):
     monkeypatch.setitem(sys.modules, "pandas", None)
     reload(sys.modules["readpaf"])
-    with pytest.raises(ImportError):
-        with open(PAF_FILE, "r") as fh:
+    with open(PAF_FILE, "r") as fh:
+        with pytest.raises(ImportError):
             _ = parse_paf(fh, dataframe=True)
 
 
@@ -148,6 +148,15 @@ def test_nan_rep():
     PAF_IO = StringIO(_rec)
     for rec in parse_paf(PAF_IO, na_rep=float("nan")):
         assert math.isnan(rec.query_start)
+
+
+def test_multiple_nan_values():
+    _rec = (
+        "2a708733-5e95-49e3-8806-e181e9380cd9\t3715\t*\tnan\t*\t*\t*\t*\t*\t*\t*\t61\n"
+    )
+    PAF_IO = StringIO(_rec)
+    for rec in parse_paf(PAF_IO, na_values=["nan"]):
+        assert rec.query_start == 0 and rec.query_end == 0
 
 
 def test_wrong_nan_rep():

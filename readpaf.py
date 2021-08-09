@@ -163,7 +163,7 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
         "target_name", "target_length", "target_start", "target_end",
         "residue_matches", "alignment_block_length", "mapping_quality", "tags"]
     na_values : list[str], optional
-        List of strings to interpret as NaN values in numeric fields
+        List of additional strings to interpret as NaN values in numeric fields
         (2, 3, 4, 7, 8, 9, 10, 11, 12).
         Default: ["*"]
     na_rep : int or float, optional
@@ -179,7 +179,7 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
     iterator or pandas.DataFrame when dataframe is True
     """
     fields = FIELDS if fields is None else fields
-    na_values = set(NA_VALUES if na_values is None else na_values)
+    na_values = set(NA_VALUES if na_values is None else na_values + NA_VALUES)
     if not isinstance(na_rep, (int, float)):
         raise ValueError("na_rep must be int or float")
 
