@@ -63,7 +63,7 @@ def test_fields_dataframe():
 
 
 def test_tag_suffix_dataframe():
-    _rec = "a7208cb4-133c-4ab9-96fe-db8630f4d9bb\t373\t15\t368\t+\tEf_genome\t2845392\t586028\t586405\t103\t377\t60\ttp:A:P\n"
+    _rec = "a7208cb4-133c-4ab9-96fe-db8630f4d9bb\t373\t15\t368\t+\tEf_genome\t2845392\t586028\t586405\t103\t377\t60\ttp:A:P\tcs:Z::6-ata:10+gtc:4*at:3\n"
     PAF_IO = StringIO(_rec)
     cols = [
         "query_name",
@@ -80,7 +80,7 @@ def test_tag_suffix_dataframe():
         "mapping_quality",
     ]
     df = parse_paf(PAF_IO, fields=cols + ["tags"], dataframe=True)
-    assert set(df.columns) == set(cols + ["tp_tag"]), "Tag field not set correctly"
+    assert set(df.columns) == set(cols + ["cs", "tp_tag"]), "Tag field not set correctly"
 
 
 def test_read_uncompressed():
