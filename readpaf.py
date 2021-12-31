@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 
 try:
     import pandas as pd
@@ -95,7 +95,7 @@ def _parse_tags(tags):
     """
     return {
         tag: SAM_TAG(tag, type_, SAM_TYPES.get(type_, lambda x: x)(val))
-        for tag, type_, val in (x.split(":") for x in tags)
+        for tag, type_, val in (x.split(":", maxsplit=2) for x in tags)
     }
 
 
