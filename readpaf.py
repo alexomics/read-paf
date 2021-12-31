@@ -95,7 +95,7 @@ def _parse_tags(tags):
     """
     return {
         tag: SAM_TAG(tag, type_, SAM_TYPES.get(type_, lambda x: x)(val))
-        for tag, type_, val in (x.split(":", maxsplit=2) for x in tags)
+        for tag, type_, val in (x.split(":", 2) for x in tags)
     }
 
 
