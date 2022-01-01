@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -10,6 +11,9 @@ on:
     types:
       - created
 
+env:
+  PYTHON_LATEST: "3.10"
+  
 jobs:
   lint:
     name: "Lint with black & flake8"
@@ -18,7 +22,7 @@ jobs:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
-          python-version: "3.9"
+          python-version: ${{env.PYTHON_LATEST}}
 
       - uses: "psf/black@stable"
       - name: "Run flake8"
@@ -38,7 +42,7 @@ jobs:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
-          python-version: "3.9"
+          python-version: ${{env.PYTHON_LATEST}}
 
       - name: "Install build, check-wheel-content, and twine"
         run: "python -m pip install build twine check-wheel-contents"
@@ -57,7 +61,7 @@ jobs:
     needs: "package"
     strategy:
       matrix:
-        python-version: ["2.7", "3.5", "3.6", "3.7", "3.8", "3.9"]
+        python-version: ["2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10"]
 
     steps:
       - uses: "actions/checkout@v2"
@@ -83,7 +87,7 @@ jobs:
       - uses: "actions/checkout@v2"
       - uses: "actions/setup-python@v2"
         with:
-          python-version: "3.9"
+          python-version: ${{env.PYTHON_LATEST}}
 
       - name: "Install build, check-wheel-content, and twine"
         run: "python -m pip install build twine check-wheel-contents"
