@@ -19,6 +19,7 @@ STATIC_FILES = os.path.join(os.path.dirname(os.path.realpath(__file__)), "static
 PAF_FILE = os.path.join(STATIC_FILES, "test.paf")
 MISSING_LINE = os.path.join(STATIC_FILES, "test_blank_line.paf")
 UNMAPPED_REC = os.path.join(STATIC_FILES, "test_unmapped.paf")
+BLANK_PAF_FILE = os.path.join(STATIC_FILES, "test_blank.paf")
 
 DEFAULT_COLS = [
     "query_name",
@@ -140,6 +141,13 @@ def test_read_unmapped():
         for record in parse_paf(fh):
             c += 1
     assert c == 10, "Incorrect number of records"
+
+
+def test_empty_file():
+    with open(BLANK_PAF_FILE, "r") as fh:
+        df = parse_paf(fh, dataframe=True)
+    assert isinstance(df, pd.DataFrame), "Not a DataFrame"
+    assert df.shape == (0, 0), "Not the right shape {}".format(df.shape)
 
 
 def test_request_dataframe_without_pandas(monkeypatch):

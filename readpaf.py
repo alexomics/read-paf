@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.9"
+__version__ = "0.0.10a1"
 
 try:
     import pandas as pd
@@ -184,10 +184,10 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
         raise ValueError("na_rep must be int or float")
 
     if dataframe and pandas:
-        return _expand_dict_in_series(
-            pd.DataFrame(_paf_generator(file_like, fields, na_values, na_rep)),
-            fields[-1],
-        )
+        df = pd.DataFrame(_paf_generator(file_like, fields, na_values, na_rep))
+        if df.empty:
+            return df
+        return _expand_dict_in_series(df, fields[-1])
     elif dataframe and not pandas:
         raise ImportError(e)
     else:
