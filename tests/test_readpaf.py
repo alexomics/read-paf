@@ -147,7 +147,7 @@ def test_empty_file():
     with open(BLANK_PAF_FILE, "r") as fh:
         df = parse_paf(fh, dataframe=True)
     assert isinstance(df, pd.DataFrame), "Not a DataFrame"
-    assert df.shape == (0, 0), "Not the right shape {}".format(df.shape)
+    assert df.shape == (0, 13), "Not the right shape {}".format(df.shape)
 
 
 def test_request_dataframe_without_pandas(monkeypatch):
