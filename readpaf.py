@@ -4,7 +4,7 @@ from collections import namedtuple
 
 __all__ = ["parse_paf"]
 
-__version__ = "0.0.11a1"
+__version__ = "0.0.11a2"
 
 try:
     import pandas as pd
@@ -186,7 +186,8 @@ def parse_paf(file_like, fields=None, na_values=None, na_rep=0, dataframe=False)
     if dataframe and pandas:
         # TODO: make this nicer
         df = pd.DataFrame(
-            (l.strip().split("\t", 12) for l in file_like if l.strip()), columns=fields
+            (line.strip().split("\t", 12) for line in file_like if line.strip()),
+            columns=fields,
         )
         df = df.join(
             pd.DataFrame(
