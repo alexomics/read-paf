@@ -12,7 +12,7 @@ on:
       - created
 
 env:
-  PYTHON_LATEST: "3.10"
+  PYTHON_LATEST: "3.11"
   
 jobs:
   lint:
@@ -61,7 +61,7 @@ jobs:
     needs: "package"
     strategy:
       matrix:
-        python-version: ["2.7", "3.5", "3.6", "3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["2.7", "3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
       - uses: "actions/checkout@v2"
